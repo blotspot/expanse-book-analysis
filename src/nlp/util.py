@@ -1,6 +1,6 @@
 import numpy as np
 
-from expanseanalyzer.common.constants import REFERENCES_DIR
+from src.common.constants import REFERENCES_DIR
 
 
 def norm_to_one(array: np.array) -> np.array:

@@ -1,7 +1,7 @@
 import logging
 import os
 
-from expanseanalyzer.common import REFERENCES_DIR, load_book_titles, LOGGER_FORMAT
+from src.common import REFERENCES_DIR, load_book_titles, LOGGER_FORMAT
 
 
 def create_link(book, name):

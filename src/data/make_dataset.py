@@ -7,9 +7,9 @@ import pandas as pd
 import spacy
 import textacy
 
-from expanseanalyzer.common import constants
-from expanseanalyzer.common.book_io import save_compressed, load_books, load_missing_books_from_raw
-from expanseanalyzer.nlp import CharacterRelationship, CentralityCalculator
+from src.common import constants
+from src.common.book_io import save_compressed, load_books, load_missing_books_from_raw
+from src.nlp import CharacterRelationship, CentralityCalculator
 
 
 def main(input_filepath):
@@ -59,7 +59,7 @@ def create_relationship_csv(books, overwrite):
     :param books: list of Book objects
     :param overwrite: flag that indicates if files that already exist should be overwritten
     """
-    from expanseanalyzer.common.character_loader import load_characters_for_book
+    from src.common.character_loader import load_characters_for_book
 
     output_file = constants.PROCESSED_DATA_DIR / constants.RELATIONSHIP_CSV_FILENAME
 

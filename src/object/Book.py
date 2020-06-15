@@ -2,8 +2,8 @@ from functools import reduce
 
 from colorama import Fore, Style
 
-from expanseanalyzer.object.Chapter import Chapter
-from expanseanalyzer.object.ChapterType import ChapterType
+from src.object.Chapter import Chapter
+from src.object.ChapterType import ChapterType
 
 
 def words_in_chapters(chapters: list) -> list:
@@ -197,7 +197,7 @@ def book_to_dict(book) -> dict:
     :param book: Book object
     :return: Serialized Book object as dict
     """
-    from expanseanalyzer.object.Chapter import chapter_to_dict
+    from src.object.Chapter import chapter_to_dict
 
     return {
         'title': book.title,
@@ -213,7 +213,7 @@ def book_from_dict(obj) -> Book:
     :param obj: JSON dict
     :return: Deserialized Book object
     """
-    from expanseanalyzer.object.Chapter import chapter_from_dict
+    from src.object.Chapter import chapter_from_dict
 
     if 'title' in obj and 'number' in obj and 'chapters' in obj:
         return Book(obj['title'], obj['number'], [chapter_from_dict(c) for c in obj['chapters']])

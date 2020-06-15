@@ -8,7 +8,7 @@ import spacy
 from pathlib import Path
 from spacy.util import minibatch, compounding
 
-from expanseanalyzer.common import constants
+from src.common import constants
 
 
 def main(model=None, output_dir=None, n_iter=250):

@@ -2,7 +2,7 @@ import networkx as nx
 import numpy as np
 from scipy.sparse.csgraph import floyd_warshall
 
-from expanseanalyzer.nlp.util import norm_to_one
+from src.nlp.util import norm_to_one
 
 
 class CentralityCalculator:

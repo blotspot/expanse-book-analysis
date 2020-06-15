@@ -1,9 +1,9 @@
 from itertools import product
 
-from expanseanalyzer.common.constants import CSV_CHAR_HITS
-from expanseanalyzer.nlp.util import dist
-from expanseanalyzer.object.Book import words_in_chapters, Book
-from expanseanalyzer.object.Character import Character
+from src.common.constants import CSV_CHAR_HITS
+from src.nlp.util import dist
+from src.object.Book import words_in_chapters, Book
+from src.object.Character import Character
 
 
 class CharacterRelationship:

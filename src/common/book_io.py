@@ -4,8 +4,8 @@ import os
 
 from pathlib import Path
 
-from expanseanalyzer.common import constants
-from expanseanalyzer.object import Book, book_to_dict, book_from_dict
+from src.common import constants
+from src.object import Book, book_to_dict, book_from_dict
 
 
 def load_book_titles() -> list:
@@ -48,7 +48,7 @@ def load_missing_books_from_raw(novels_only: bool, found_books: list):
     :param found_books: list of books already loaded
     :return: list of missing books
     """
-    from expanseanalyzer.common.parser import book_name_from_path, book_number_from_path, parse_book
+    from src.common.parser import book_name_from_path, book_number_from_path, parse_book
 
     titles = [book.title for book in found_books]
     for (dir_path, _, filenames) in os.walk(constants.RAW_DATA_DIR):

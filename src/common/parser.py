@@ -3,8 +3,8 @@ from os import walk
 
 from pathlib import Path
 
-from expanseanalyzer.common.constants import RAW_DATA_DIR
-from expanseanalyzer.object import Book, ChapterType, Chapter, Segment
+from src.common.constants import RAW_DATA_DIR
+from src.object import Book, ChapterType, Chapter, Segment
 
 
 def book_name_from_path(book_path):
@@ -40,7 +40,7 @@ def parse_chapters(content: list) -> list:
     :param content: file content from 'book.txt'
     :return: list of chapters in a book
     """
-    from expanseanalyzer.common.character_loader import find_character_for_pov
+    from src.common.character_loader import find_character_for_pov
 
     chapters = []
     chapter_start = -1
@@ -62,7 +62,7 @@ def parse_chapters(content: list) -> list:
             chapters.append(current_chapter)
 
         if len(chapters) == 0:
-            from expanseanalyzer.object.Character import Character
+            from src.object.Character import Character
 
             # Novellas don't have chapter headers
             chapter_start = i

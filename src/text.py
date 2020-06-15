@@ -3,9 +3,9 @@ from spacy import displacy
 from textblob import TextBlob
 from textblob.sentiments import NaiveBayesAnalyzer
 
-from expanseanalyzer import parse_speech_in_segment
-from expanseanalyzer.common.constants import MODEL_DIR
-from expanseanalyzer.common import load_book_by_nr
+from src import parse_speech_in_segment
+from src.common.constants import MODEL_DIR
+from src.common import load_book_by_nr
 
 
 def ent():

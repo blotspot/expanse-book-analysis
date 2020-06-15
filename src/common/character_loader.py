@@ -1,7 +1,7 @@
 import os
 
-from expanseanalyzer.common import constants
-from expanseanalyzer.object.Character import Character
+from src.common import constants
+from src.object.Character import Character
 
 
 def load_characters_from_dir(book_dir) -> list:

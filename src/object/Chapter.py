@@ -1,8 +1,8 @@
 from functools import reduce
 
-from expanseanalyzer.object.ChapterType import ChapterType
-from expanseanalyzer.object.Character import Character
-from expanseanalyzer.object.Segment import Segment
+from src.object.ChapterType import ChapterType
+from src.object.Character import Character
+from src.object.Segment import Segment
 
 
 class Chapter:
@@ -88,7 +88,7 @@ def chapter_to_dict(chapter: Chapter) -> dict:
     :param chapter: Chapter object
     :return: Serialized Chapter object as dict
     """
-    from expanseanalyzer.object.Segment import segment_to_dict
+    from src.object.Segment import segment_to_dict
     return {
         'no': chapter.number,
         'pov': chapter.pov.ref_name,
@@ -104,8 +104,8 @@ def chapter_from_dict(obj) -> Chapter:
     :param obj: JSON dict
     :return: Deserialized Chapter object
     """
-    from expanseanalyzer.common.character_loader import find_character_for_pov
-    from expanseanalyzer.object.Segment import segment_from_dict
+    from src.common.character_loader import find_character_for_pov
+    from src.object.Segment import segment_from_dict
 
     if 'no' in obj and 'pov' in obj and 'segments' in obj and 'chapter_type' in obj:
         char = find_character_for_pov(obj['pov'])

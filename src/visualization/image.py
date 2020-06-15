@@ -1,6 +1,6 @@
 from PIL import Image, ImageDraw, ImageFont, ImageColor
 
-from expanseanalyzer.common.constants import EXTERNAL_DATA_DIR
+from src.common.constants import EXTERNAL_DATA_DIR
 
 FONT = str(EXTERNAL_DATA_DIR / 'Protomolecule-Black.ttf')
 MARGIN = 0.05

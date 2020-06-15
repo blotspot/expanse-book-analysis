@@ -7,9 +7,9 @@ from matplotlib import cm
 from matplotlib import rcParams
 from wordcloud import WordCloud, ImageColorGenerator
 
-from expanseanalyzer.common import constants
-from expanseanalyzer.nlp.util import STOPWORDS
-from expanseanalyzer.visualization.image import text_to_image
+from src.common import constants
+from src.nlp.util import STOPWORDS
+from src.visualization.image import text_to_image
 
 DEFAULT_COLOR = '#333F4B'
 DEFAULT_LINE_WIDTH = 0.5
@@ -192,7 +192,7 @@ def word_cloud(num, book_title):
     :param num: book number
     :param book_title: book title
     """
-    from expanseanalyzer.common import load_book
+    from src.common import load_book
 
     book = load_book(book_title)
     pov_characters = {pov.ref_name for pov in book.pov_characters()}
@@ -222,7 +222,7 @@ def word_cloud(num, book_title):
 
 
 if __name__ == "__main__":
-    from expanseanalyzer.common import load_book_titles
+    from src.common import load_book_titles
 
     # For this to work we need to run 'make_dataset.py' first
     logging.basicConfig(level=logging.INFO, format=constants.LOGGER_FORMAT)
