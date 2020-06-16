@@ -2,7 +2,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageColor
 
 from src.common.constants import EXTERNAL_DATA_DIR
 
-FONT = str(EXTERNAL_DATA_DIR / 'Protomolecule-Black.ttf')
+FONT = str(EXTERNAL_DATA_DIR / 'font/Protomolecule-Black.ttf')
 MARGIN = 0.05
 
 BOOK_COLORS = {

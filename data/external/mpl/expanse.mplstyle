@@ -1,0 +1,76 @@
+### MATPLOTLIBRC FORMAT
+
+
+# Colors: for the color values below, you can either use - a
+# matplotlib color string, such as r, k, or b - an rgb tuple, such as
+# (1.0, 0.5, 0.0) - a hex string, such as ff00ff - a scalar
+# grayscale intensity such as 0.75 - a legal html color name, e.g., red,
+# blue, darkslategray
+
+#### CONFIGURATION BEGINS HERE
+
+### PATCH
+patch.linewidth : 0.5
+
+### FONT
+font.family     : sans-serif
+font.weight     : light
+font.sans-serif : Protomolecule, DejaVu Sans, Bitstream Vera Sans, Lucida Grande, Verdana, Geneva, Lucid, Arial, Helvetica, Avant Garde, sans-serif
+font.size       : 10.0
+
+
+### TEXT
+# text properties used by text.Text.  See
+# http://matplotlib.org/api/artist_api.html#module-matplotlib.text for more
+# information on text properties
+
+text.color : 333F4B
+
+
+### AXES
+# default face and edge color, default tick sizes,
+# default fontsizes for ticklabels, and so on.  See
+# http://matplotlib.org/api/axes_api.html#module-matplotlib.axes
+axes.edgecolor      : 333F4B   # axes edge color
+axes.linewidth      : 0.5      # edge linewidth
+
+axes.titlesize      : xx-large
+axes.titleweight    : light
+axes.titlepad       : 33.0      # pad between axes and title in points
+
+axes.labelsize      : large    # fontsize of the x any y labels
+axes.labelpad       : 9.0      # space between label and axis
+axes.labelweight    : light    # weight of the x and y labels
+
+axes.spines.left   : True    # display axis spines
+axes.spines.bottom : True
+axes.spines.top    : False
+axes.spines.right  : False
+
+
+### TICKS
+# see http://matplotlib.org/api/axis_api.html#matplotlib.axis.Tick
+xtick.color          : 333F4B   # color of the tick labels
+xtick.labelsize      : x-small  # fontsize of the tick labels
+
+ytick.color          : 333F4B  # color of the tick labels
+ytick.labelsize      : x-small # fontsize of the tick labels
+
+
+### GRID
+grid.linewidth : 0.5
+grid.color     : F9F9F9
+
+
+### Legend
+legend.edgecolor     : 333F4B  # background patch boundary color
+legend.fontsize      : x-small
+
+
+### FIGURE
+# See http://matplotlib.org/api/figure_api.html#matplotlib.figure.Figure
+figure.autolayout : True    # When True, automatically adjust subplot
+                            # parameters to make the plot fit the figure
+                            # using `tight_layout`
+figure.figsize : 7.1, 4.38
+figure.dpi : 180

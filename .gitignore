@@ -78,6 +78,7 @@ target/
 /data/**/*.txt
 /data/**/*.csv
 /data/model/**
+!/data/raw/01_Drive/book.txt
 
 # exclude link directories for people
 /references/people/*/*.txt
@@ -94,3 +95,4 @@ target/
 
 # Mypy cache
 .mypy_cache/
+Würde data/raw/01_Drive/book.txt löschen

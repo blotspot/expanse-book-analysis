@@ -1,0 +1,15 @@
+<img src="../images/00001.jpeg" alt="image".*/>
+* * *
+
+^.*class="toc-chapter".*$
+
+
+^.*class="copyright.*$
+
+
+^.*class="center".*$
+
+
+^.*h1 (?!class="chapter-title").*$
+
+

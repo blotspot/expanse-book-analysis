@@ -11,57 +11,17 @@ from src.common import constants
 from src.nlp.util import STOPWORDS
 from src.visualization.image import text_to_image
 
+
+plt.style.use(constants.EXTERNAL_DATA_DIR / "mpl/expanse.mplstyle")
+
 DEFAULT_COLOR = '#333F4B'
 DEFAULT_LINE_WIDTH = 0.5
 
 WIDTH = 170 * constants.MM_TO_INCH
 HEIGHT = WIDTH / constants.PHI
-DPI = 180
 
-REGEX = r'(?!-)(?:-\b|\b-|\w)+(?=\b)'
-
-rcParams['figure.figsize'] = (WIDTH, HEIGHT)
-rcParams['figure.dpi'] = DPI
-rcParams['figure.autolayout'] = True
-
-rcParams['patch.linewidth'] = DEFAULT_LINE_WIDTH
-
-rcParams['text.color'] = DEFAULT_COLOR
-
-# === Axes Style ===
-rcParams['axes.edgecolor'] = DEFAULT_COLOR
-rcParams['axes.linewidth'] = DEFAULT_LINE_WIDTH
-rcParams['axes.labelsize'] = 12
-rcParams['axes.labelweight'] = 'light'
-rcParams['axes.labelpad'] = 9
-rcParams['axes.titlesize'] = 15
-rcParams['axes.titleweight'] = 'light'
-rcParams['axes.titlepad'] = 33
-
-rcParams['axes.spines.left']: True
-rcParams['axes.spines.right']: False
-rcParams['axes.spines.top']: False
-rcParams['axes.spines.bottom']: True
-
-# === Font Style ===
-# Download Protomolecule Font: http://s000.tinyupload.com/index.php?file_id=05669778453487715321
-rcParams['font.family'] = 'sans-serif'
-rcParams['font.sans-serif'] = 'Protomolecule'
-rcParams['font.weight'] = 'light'
-
-# === Tick Style ===
-rcParams['xtick.color'] = DEFAULT_COLOR
-rcParams['xtick.labelsize'] = 7
-rcParams['ytick.color'] = DEFAULT_COLOR
-rcParams['ytick.labelsize'] = 7
-
-# === Legend Style ===
-rcParams['legend.edgecolor'] = DEFAULT_COLOR
-rcParams['legend.fontsize'] = 7
-
-# === Grid Style ===
-rcParams['grid.linewidth'] = DEFAULT_LINE_WIDTH
-rcParams['grid.color'] = '#F9F9F9'
+# rcParams['figure.figsize'] = (WIDTH, HEIGHT)
+# rcParams['figure.dpi'] = 180
 
 
 def scatter_plot(num: int, book: str, file_prefix: str, x_axis: tuple, y_axis: tuple, col_bar: tuple):
@@ -139,8 +99,8 @@ def grouped_bar_plot(first: tuple, second: tuple, axis):
     x = np.arange(len(labels))
     bar_width = 0.4
     # style_axis(False)
-    axis.bar(x, first_data, width=bar_width, label=first_title, color='#fdf187')
-    axis.bar(x + bar_width, second_data, width=bar_width, label=second_title, color='#88bac1', alpha=1)
+    axis.bar(x, first_data, width=bar_width, label=first_title, color='#d1a94d')
+    axis.bar(x + bar_width, second_data, width=bar_width, label=second_title, color='#4c7648', alpha=1)
     axis.legend()
     axis.set_xticks(x + bar_width / 2)
     axis.set_xticklabels(labels, rotation=45, ha="right")
@@ -207,7 +167,7 @@ def word_cloud(num, book_title):
             width=img.size[0],
             height=img.size[1],
             stopwords=stopwords_exclude_own_name,
-            regexp=REGEX,
+            regexp=r'(?!-)(?:-\b|\b-|\w)+(?=\b)',
             background_color='white',
             min_font_size=10,
             max_words=1000,
@@ -265,4 +225,4 @@ if __name__ == "__main__":
             ('Katz CEntrality', df[constants.CENT_CSV_KATZ].to_numpy())
         )
 
-        word_cloud(book_nr, title)
+        # word_cloud(book_nr, title)
