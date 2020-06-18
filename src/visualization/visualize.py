@@ -21,6 +21,7 @@ ALPHA = 0.55
 WIDTH = 170 * constants.MM_TO_INCH
 HEIGHT = WIDTH / constants.PHI
 
+
 # rcParams['figure.figsize'] = (WIDTH, HEIGHT)
 # rcParams['figure.dpi'] = 180
 
@@ -39,7 +40,7 @@ def scatter_plot(num: int, book: str, file_prefix: str, x_axis: tuple, y_axis: t
     x_label, x_values = x_axis
     y_label, y_values = y_axis
     c_label, c_values = col_bar
-    scatter_plt = plt.scatter(x=x_values, y=y_values, s=500, alpha=0.55,
+    scatter_plt = plt.scatter(x=x_values, y=y_values, s=500, alpha=ALPHA,
                               c=c_values, cmap=expanse_cmap(n=10, mode='hls'), vmin=0, vmax=1,
                               clip_on=False,
                               linewidth=1)
@@ -100,9 +101,9 @@ def grouped_bar_plot(first: tuple, second: tuple, axis):
     x = np.arange(len(labels))
     bar_width = 0.4
     # style_axis(False)
-    colors = expanse_colors(2, 0.55)
-    axis.bar(x, first_data, width=bar_width, label=first_title, color=colors[0])
-    axis.bar(x + bar_width, second_data, width=bar_width, label=second_title, color=colors[1], alpha=1)
+    colors = expanse_colors(10)
+    axis.bar(x, first_data, width=bar_width, label=first_title, color=colors[1], alpha=0.75)
+    axis.bar(x + bar_width, second_data, width=bar_width, label=second_title, color=colors[-1], alpha=0.75)
     axis.legend()
     axis.set_xticks(x + bar_width / 2)
     axis.set_xticklabels(labels, rotation=45, ha="right")

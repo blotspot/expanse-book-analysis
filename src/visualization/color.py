@@ -1,7 +1,7 @@
 import colorsys
 
-_STAR_HELIX_BLUE = "#12223E"
-_PnK_YELLOW = "#F9D366"
+_START = "#3F7EA6"  # "#12223E"
+_END = "#A63860"  # "#F9D366"
 
 
 def hex_to_rgb(hex_string):
@@ -72,8 +72,8 @@ def expanse_cmap(n=10, alpha=1.0, mode='color'):
 
 
 def expanse_colors(n=10, alpha=1.0, mode='color'):
-    start = normalize_rgb(hex_to_rgb(_STAR_HELIX_BLUE))
-    finish = normalize_rgb(hex_to_rgb(_PnK_YELLOW))
+    start = normalize_rgb(hex_to_rgb(_START))
+    finish = normalize_rgb(hex_to_rgb(_END))
     if mode == 'hsv':
         colors = gradient(colorsys.rgb_to_hsv, colorsys.hsv_to_rgb, start, finish, n)
     elif mode == 'hls':
