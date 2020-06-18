@@ -4,18 +4,19 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from matplotlib import cm
-from matplotlib import rcParams
 from wordcloud import WordCloud, ImageColorGenerator
 
 from src.common import constants
 from src.nlp.util import STOPWORDS
 from src.visualization.image import text_to_image
-
+from src.visualization.color import expanse_cmap, expanse_colors
 
 plt.style.use(constants.EXTERNAL_DATA_DIR / "mpl/expanse.mplstyle")
 
 DEFAULT_COLOR = '#333F4B'
 DEFAULT_LINE_WIDTH = 0.5
+
+ALPHA = 0.55
 
 WIDTH = 170 * constants.MM_TO_INCH
 HEIGHT = WIDTH / constants.PHI
@@ -39,7 +40,7 @@ def scatter_plot(num: int, book: str, file_prefix: str, x_axis: tuple, y_axis: t
     y_label, y_values = y_axis
     c_label, c_values = col_bar
     scatter_plt = plt.scatter(x=x_values, y=y_values, s=500, alpha=0.55,
-                              c=c_values, cmap=cm.get_cmap('viridis', 10), vmin=0, vmax=1,
+                              c=c_values, cmap=expanse_cmap(n=10, mode='hls'), vmin=0, vmax=1,
                               clip_on=False,
                               linewidth=1)
 
@@ -91,7 +92,7 @@ def grouped_bar_plot(first: tuple, second: tuple, axis):
 
     :param first: tuple with bar name and list of values for first bar
     :param second: tuple with bar name and list of values for second bar
-    :param axis axis object
+    :param axis: axis object
     """
     first_title, first_data = first
     second_title, second_data = second
@@ -99,8 +100,9 @@ def grouped_bar_plot(first: tuple, second: tuple, axis):
     x = np.arange(len(labels))
     bar_width = 0.4
     # style_axis(False)
-    axis.bar(x, first_data, width=bar_width, label=first_title, color='#d1a94d')
-    axis.bar(x + bar_width, second_data, width=bar_width, label=second_title, color='#4c7648', alpha=1)
+    colors = expanse_colors(2, 0.55)
+    axis.bar(x, first_data, width=bar_width, label=first_title, color=colors[0])
+    axis.bar(x + bar_width, second_data, width=bar_width, label=second_title, color=colors[1], alpha=1)
     axis.legend()
     axis.set_xticks(x + bar_width / 2)
     axis.set_xticklabels(labels, rotation=45, ha="right")
