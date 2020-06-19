@@ -15,7 +15,7 @@ patch.linewidth : 0.5
 ### FONT
 font.family     : sans-serif
 font.weight     : light
-font.sans-serif : Protomolecule, DejaVu Sans, Bitstream Vera Sans, Lucida Grande, Verdana, Geneva, Lucid, Arial, Helvetica, Avant Garde, sans-serif
+font.sans-serif : Protomolecule, DejaVu Sans, Verdana, Arial, Helvetica, sans-serif
 font.size       : 10.0
 
 
@@ -31,16 +31,21 @@ text.color : 333F4B
 # default face and edge color, default tick sizes,
 # default fontsizes for ticklabels, and so on.  See
 # http://matplotlib.org/api/axes_api.html#module-matplotlib.axes
-axes.edgecolor      : 333F4B   # axes edge color
-axes.linewidth      : 0.5      # edge linewidth
+axes.edgecolor     : 333F4B   # axes edge color
+axes.linewidth     : 0.5      # edge linewidth
 
-axes.titlesize      : xx-large
-axes.titleweight    : light
-axes.titlepad       : 33.0      # pad between axes and title in points
+axes.titlesize     : xx-large
+axes.titleweight   : light
+axes.titlepad      : 33.0     # pad between axes and title in points
 
-axes.labelsize      : large    # fontsize of the x any y labels
-axes.labelpad       : 9.0      # space between label and axis
-axes.labelweight    : light    # weight of the x and y labels
+axes.labelsize     : large    # fontsize of the x any y labels
+axes.labelpad      : 9.0      # space between label and axis
+axes.labelweight   : light    # weight of the x and y labels
+axes.labelcolor    : 333F4B
+
+axes.grid          : True
+axes.grid.axis     : both
+axes.axisbelow     : True
 
 axes.spines.left   : True    # display axis spines
 axes.spines.bottom : True
@@ -52,9 +57,13 @@ axes.spines.right  : False
 # see http://matplotlib.org/api/axis_api.html#matplotlib.axis.Tick
 xtick.color          : 333F4B   # color of the tick labels
 xtick.labelsize      : x-small  # fontsize of the tick labels
+xtick.major.width    : 0.5    ## major tick width in points
+xtick.minor.width    : 0.5    ## minor tick width in points
 
 ytick.color          : 333F4B  # color of the tick labels
 ytick.labelsize      : x-small # fontsize of the tick labels
+ytick.major.width    : 0.5    ## major tick width in points
+ytick.minor.width    : 0.5    ## minor tick width in points
 
 
 ### GRID
@@ -74,3 +83,7 @@ figure.autolayout : True    # When True, automatically adjust subplot
                             # using `tight_layout`
 figure.figsize : 7.1, 4.38
 figure.dpi : 180
+figure.titlesize : large
+figure.titleweight : bold
+figure.facecolor : 333F4B
+figure.edgecolor : 333F4B

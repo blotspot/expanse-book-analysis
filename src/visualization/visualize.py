@@ -3,88 +3,60 @@ import logging
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from matplotlib import cm
 from wordcloud import WordCloud, ImageColorGenerator
 
 from src.common import constants
 from src.nlp.util import STOPWORDS
-from src.visualization.image import text_to_image
 from src.visualization.color import expanse_cmap, expanse_colors
+from src.visualization.image import text_to_image
 
 plt.style.use(constants.EXTERNAL_DATA_DIR / "mpl/expanse.mplstyle")
-
-DEFAULT_COLOR = '#333F4B'
-DEFAULT_LINE_WIDTH = 0.5
-
-ALPHA = 0.55
-
-WIDTH = 170 * constants.MM_TO_INCH
-HEIGHT = WIDTH / constants.PHI
+# WIDTH = 170 * constants.MM_TO_INCH
+# HEIGHT = WIDTH / constants.PHI
 
 
-# rcParams['figure.figsize'] = (WIDTH, HEIGHT)
-# rcParams['figure.dpi'] = 180
-
-
-def scatter_plot(num: int, book: str, file_prefix: str, x_axis: tuple, y_axis: tuple, col_bar: tuple):
+def scatter_plot(num: int, book: str, x_axis: tuple, y_axis: tuple, col_bar: tuple):
     """
     Plots a scatter diagram.
 
     :param num: book number (for file naming only)
     :param book: book title (figure title and file name)
-    :param file_prefix: custom text before number and title in filename
-    :param x_axis: tuple of x-axis title and values
-    :param y_axis: tuple of y-axis title and values
-    :param col_bar: tuple of colorbar title and values
+    :param x_axis: tuple(title, values) for x-axis
+    :param y_axis: tuple(title, values) for y-axis
+    :param col_bar: tuple(title, values) for color bar
     """
-    x_label, x_values = x_axis
-    y_label, y_values = y_axis
-    c_label, c_values = col_bar
-    scatter_plt = plt.scatter(x=x_values, y=y_values, s=500, alpha=ALPHA,
-                              c=c_values, cmap=expanse_cmap(n=10, mode='hls'), vmin=0, vmax=1,
+    scatter_plt = plt.scatter(x=x_axis[1], y=y_axis[1], s=500, alpha=0.55,
+                              c=col_bar[1], cmap=expanse_cmap(n=10, mode='hls'), vmin=0, vmax=1,
                               clip_on=False,
                               linewidth=1)
 
     # add labels to data points
-    for label, x_val, y_val in zip(labels, x_values, y_values):
+    for label, x_val, y_val in zip(labels, x_axis[1], y_axis[1]):
         plt.annotate(label,
                      (x_val, y_val),
                      textcoords='offset points',
                      xytext=(0, 0),
-                     ha='center',
-                     va='center',
-                     size=5,
-                     weight='medium',
-                     color=DEFAULT_COLOR)
+                     ha='center', va='center',
+                     size=5, weight='medium')
 
     color_bar = plt.colorbar(scatter_plt)
     color_bar.outline.set_visible(False)
-    color_bar.outline.set_linewidth(DEFAULT_LINE_WIDTH)
-    color_bar.ax.set_ylabel(c_label, rotation=270, labelpad=24)
-    color_bar.ax.tick_params(direction='inout', width=DEFAULT_LINE_WIDTH, length=0)
-    color_bar.ax.spines['right'].set_visible(True)
+    color_bar.ax.set_ylabel(col_bar[0], rotation=270, labelpad=24)
+    color_bar.ax.tick_params(length=0)
 
-    plt.xlabel(x_label)
-    plt.ylabel(y_label)
-    plt.title(label_book(book), color=DEFAULT_COLOR)
+    plt.xlabel(x_axis[0])
+    plt.ylabel(y_axis[0])
+    plt.title(label_book(book))
 
-    # Additional Axis styling.
-    plt.scatter([0, 1], [0, 1], s=0)
-    axis = plt.gca()
-    axis.set_xlim([-0.02 / constants.PHI, 1.0000000001])
-    axis.set_ylim([-0.02, 1.0000000001])
-    axis.spines['top'].set_color('none')
-    axis.spines['right'].set_color('none')
-    axis.spines['left'].set_bounds(0, 1)
-    axis.spines['bottom'].set_bounds(0, 1)
-    axis.set_axisbelow(True)
-    axis.yaxis.grid(True)
-    axis.xaxis.grid(True)
-    axis.tick_params(width=DEFAULT_LINE_WIDTH)
+    # Additional styling
+    plt.scatter(x=[0, 1], y=[0, 1], s=0)  # s=0 prevents that strange dots appear at 0,0 and 1,1
+    axis = plt.gca()  # get axis object for decoupled x and y axis line stroke effect
+    axis.set_xlim([-0.02 / constants.PHI, 1.0000000001])  # make the axis limitations a bit higher than the data range
+    axis.set_ylim([-0.02, 1.0000000001])    # this basically creates a padding between the data and the line strokes
+    axis.spines['left'].set_bounds(0, 1)    # make sure spines are still in data range to make the line strokes appear
+    axis.spines['bottom'].set_bounds(0, 1)  # to be decoupled
 
-    # save as png
-    plt.savefig(constants.REPORTS_DIR / 'figures' / '{} {} {}.png'.format(file_prefix, num, book))
-    plt.close()
+    save(num, book, 'fractal')
 
 
 def grouped_bar_plot(first: tuple, second: tuple, axis):
@@ -100,28 +72,22 @@ def grouped_bar_plot(first: tuple, second: tuple, axis):
 
     x = np.arange(len(labels))
     bar_width = 0.4
-    # style_axis(False)
-    colors = expanse_colors(10)
-    axis.bar(x, first_data, width=bar_width, label=first_title, color=colors[1], alpha=0.75)
-    axis.bar(x + bar_width, second_data, width=bar_width, label=second_title, color=colors[-1], alpha=0.75)
-    axis.legend()
+    colors = expanse_colors(2)
+    axis.bar(x, first_data, width=bar_width, label=first_title, color=colors[0], alpha=0.65)
+    axis.bar(x + bar_width, second_data, width=bar_width, label=second_title, color=colors[1], alpha=0.65)
     axis.set_xticks(x + bar_width / 2)
     axis.set_xticklabels(labels, rotation=45, ha="right")
-
-    # Axis styling.
-    axis.spines['top'].set_visible(False)
-    axis.spines['right'].set_visible(False)
-    axis.spines['left'].set_visible(False)
-    axis.spines['bottom'].set_color(DEFAULT_COLOR)
-    axis.tick_params(bottom=False, left=False, width=DEFAULT_LINE_WIDTH)
-    axis.set_axisbelow(True)
-    axis.yaxis.grid(True)
-    axis.xaxis.grid(False)
+    # additional styling
+    axis.tick_params(bottom=False, left=False)  # No ticks left and bottom
+    axis.spines['left'].set_visible(False)  # No line on the left
+    axis.xaxis.grid(False)  # No vertical grid lines
+    axis.legend()
 
 
 def plot_grouped_bars(num: int, book: str, figure_title: str, first: tuple, second: tuple):
     """
     Plots a grouped bar chart
+
     :param num: book number (for file naming only)
     :param book: book title (figure title and file name)
     :param figure_title: figure title
@@ -132,16 +98,32 @@ def plot_grouped_bars(num: int, book: str, figure_title: str, first: tuple, seco
     axis = plt.gca()
 
     axis.title.set_text('{} // {}'.format(figure_title, label_book(book)))
-
     grouped_bar_plot(first, second, axis)
+
     # save as png
-    plt.savefig(constants.REPORTS_DIR / 'figures' / '{} {} {}.png'.format(figure_title, num, book))
+    save(num, book, figure_title)
+
+
+def save(book_num: int, book_title: str, suffix: str):
+    """
+    Saves a mpl figure as png in the reports folder under the name:
+    "{book_num} {book_title} {suffix}.png"
+
+    Leviathan Wakes would therefore produce: "01 Leviathan Wakes fractal.png"
+
+    :param book_num: book number
+    :param book_title: book title
+    :param suffix:
+    """
+    # save as png
+    plt.savefig(constants.REPORTS_DIR / 'figures' / '{0:02d} {1} {2}.png'.format(book_num, book_title, suffix.lower()))
     plt.close()
 
 
 def label_book(book_title):
     """
     converts the book title into an 'expansish' label (replace upper- with lowercase and use "_" instead of whitespace)
+
     :param book_title: book title
     :return: formatted book title
     """
@@ -164,9 +146,9 @@ def word_cloud(num, book_title):
         words = ' '.join([chapter.content() for chapter in book.chapters_by_pov(pov)])
         stopwords_exclude_own_name = STOPWORDS.copy()
         stopwords_exclude_own_name.add(pov)
-        img = text_to_image(book_title, pov, 650)
+        img = text_to_image(book_title, pov, 650)  # make an image out of the characters name
         wc_mask = np.array(img)
-        cloud = WordCloud(
+        cld = WordCloud(
             width=img.size[0],
             height=img.size[1],
             stopwords=stopwords_exclude_own_name,
@@ -175,37 +157,35 @@ def word_cloud(num, book_title):
             min_font_size=10,
             max_words=1000,
             mask=wc_mask,
-            font_path=constants.WORD_CLOUD_FONT_PATH,
+            font_path=constants.WORD_CLOUD_FONT_PATH,  # Load 'Protomolecule Black' Font
             collocations=False
         )
-        cloud = cloud.generate(words)
+        cld = cld.generate(words)
         image_colors = ImageColorGenerator(wc_mask)
-        cloud = cloud.recolor(color_func=image_colors)
-        cloud.to_file(constants.REPORTS_DIR / 'figures' / 'Wordcloud {} {} - {}.png'.format(num, book_title, pov))
+        cld = cld.recolor(color_func=image_colors)
+        cld.to_file(constants.REPORTS_DIR / 'figures' / '{0:02d} {1} wordcloud - {2}.png'.format(num, book_title, pov))
 
 
 if __name__ == "__main__":
     from src.common import load_book_titles
 
-    # For this to work we need to run 'make_dataset.py' first
     logging.basicConfig(level=logging.INFO, format=constants.LOGGER_FORMAT)
     LOGGER = logging.getLogger(__name__)
 
     for i, title in enumerate(load_book_titles()):
         book_nr = i + 1
+        # load character centralities for the book
         df = pd.read_csv(constants.PROCESSED_DATA_DIR / constants.CENTRALITY_CSV_FILENAME.format(title), header=0)
         # sort by mentions and take only most mentioned characters
         df = df.sort_values(by=constants.CSV_CHAR_MENT, ascending=False).head(15)
 
         # Format labels as uppercase for readability
-        labels = [l.upper() for l in df.label]
+        labels = [label.upper() for label in df.label]
 
         LOGGER.info('Plot figures for %s ...', title)
-        scatter_plot(book_nr, title, 'Fractal',
+        scatter_plot(book_nr, title,
                      ('ImportancE (pAgErAnk)', df[constants.CENT_CSV_TR].to_numpy()),
-                     # Importance of a Character in the Network
                      ('InfluencE (Katz)', df[constants.CENT_CSV_KATZ].to_numpy()),
-                     # Influence of a Character in the Network
                      ('intEractions (DEEGre)', df[constants.CENT_CSV_DEG].to_numpy()))
 
         # Compare NetworkX Text(Page)Rank results vs. my implementation
@@ -228,4 +208,4 @@ if __name__ == "__main__":
             ('Katz CEntrality', df[constants.CENT_CSV_KATZ].to_numpy())
         )
 
-        # word_cloud(book_nr, title)
+        word_cloud(book_nr, title)
