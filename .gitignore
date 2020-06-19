@@ -81,7 +81,7 @@ target/
 !/data/raw/01_Drive/book.txt
 
 # exclude link directories for people
-/references/people/*/*.txt
+/references/characters/*/*.txt
 
 # exclude generated images from reports
 /reports/figures/*.png
