@@ -1,0 +1,31 @@
+# local package
+-e .
+
+# math stuff & dataframes
+scipy
+numpy
+pandas
+networkx
+
+# nlp
+spacy
+textacy
+wordcloud
+
+# visualisation
+matplotlib
+altair
+colorama
+
+# backwards compatibility
+pathlib2
+
+# codestyle, documentation and general stuff
+pylint
+flake8
+Sphinx
+coverage
+python-dotenv
+
+# notebooks
+jupyter
