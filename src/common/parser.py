@@ -4,7 +4,7 @@ from os import walk
 from pathlib import Path
 
 from src.common.constants import RAW_DATA_DIR
-from src.object import Book, ChapterType, Chapter, Segment
+from src.object import Book, ChapterType, Chapter, Segment, Speech
 
 
 def book_name_from_path(book_path):
@@ -134,25 +134,27 @@ def parse_book(title: str) -> Book:
     return book
 
 
-def parse_speech_in_segment(segment: Segment, nlp):
+def parse_speech_in_segment(nlp, segment: Segment) -> list:
     """
     Parses all speeches in a segment.
+
     :param segment: segment
     :param nlp: spacy nlp object
     :return: list of found speeches and its speakers
     """
     speeches = []
-    for line in segment.lines:
+    for i, line in enumerate(segment.lines):
         spoken_line, speaker = parse_speech(line, nlp)
         if spoken_line:
-            # speeches.append(speaker + ": " + "\n\t".join(spoken_line))
-            speeches.append([speaker, spoken_line])
+            speeches.append(Speech(speaker, spoken_line, i))
+
     return speeches
 
 
-def parse_speech(line: str, nlp):
+def parse_speech(line: str, nlp) -> tuple:
     """
-    Parses the speech in on line of a text.
+    Parses the speech in a line of text.
+
     :param line: text line
     :param nlp: spacy nlp object
     :return: the spoken line and the speaker

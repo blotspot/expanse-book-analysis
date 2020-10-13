@@ -59,6 +59,7 @@ target/
 
 # Database
 *.db
+*.db-journal
 *.rdb
 
 # Pycharm
