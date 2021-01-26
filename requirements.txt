@@ -2,31 +2,38 @@
 -e .
 
 # math stuff & dataframes
-scipy
-numpy
-pandas
-networkx
+scipy==1.5.4
+numpy==1.19.4
+pandas==1.1.4
+networkx==2.5
 
 # nlp
-spacy
-textacy
-wordcloud
-textblob
+spacy>=2.1.0
+# for training a model via xlsx
+excelcy>=0.4.1
+textract>=1.6.3
+# spacy addon
+textacy>=0.10.1
+# stanford CoreNLP
+stanza>=1.1.1
+# TextBlob
+textblob>=0.15.3
 
 # visualisation
-matplotlib
-altair
-colorama
+matplotlib>=3.3.3
+wordcloud>=1.8.1
+altair>=4.1.0
+colorama>=0.4.4
 
 # backwards compatibility
-pathlib2
+pathlib2>=2.3.5
 
 # codestyle, documentation and general stuff
-pylint
-flake8
-Sphinx
-coverage
-python-dotenv
+pylint>=2.6.0
+flake8>=3.8.4
+Sphinx>=3.3.1
+coverage>=5.3
+python-dotenv>=0.15.0
 
 # notebooks
-jupyter
+jupyter==1.0.0

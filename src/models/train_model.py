@@ -1,5 +1,6 @@
 from __future__ import unicode_literals, print_function
 
+import re
 import ast
 import random
 
@@ -8,7 +9,11 @@ import spacy
 from pathlib import Path
 from spacy.util import minibatch, compounding
 
-from src.common import constants
+from excelcy import ExcelCy
+from excelcy.storage import Config
+
+from src.common import constants, load_book_by_nr
+from src.nlp import add_stopwords
 
 
 def main(model=None, output_dir=None, n_iter=250):
@@ -80,7 +85,44 @@ def save_model(nlp, train_data, output_dir):
         print("Saved model to", output_dir)
 
 
+def prepare_excelcy_data():
+    excelcy = ExcelCy()
+    add_stopwords(excelcy.nlp)
+    excelcy.storage.config = Config(nlp_base='en_core_web_lg',train_iteration=20,train_drop=0.2)
+    excelcy.storage.base_path = str(constants.MODEL_DATA_DIR)
+    excelcy.storage.source.add(kind='textract', value='[base_path]/source/training_text.txt')
+    excelcy.discover()
+    excelcy.storage.prepare.add(kind='file', value='[base_path]/prepare/pers.xlsx', entity='')
+    excelcy.storage.prepare.add(kind='file', value='[base_path]/prepare/orgs.xlsx', entity='')
+    excelcy.storage.prepare.add(kind='file', value='[base_path]/prepare/locs.xlsx', entity='')
+    excelcy.storage.prepare.add(kind='file', value='[base_path]/prepare/ships.xlsx', entity='')
+    excelcy.storage.prepare.add(kind='file', value='[base_path]/prepare/misc.xlsx', entity='')
+    excelcy.prepare()
+    excelcy.storage.phase.add('discover')
+    excelcy.storage.phase.add('prepare')
+    excelcy.storage.phase.add('train')
+    excelcy.storage.phase.add('retest')
+    excelcy.storage.config.prepare_enabled = False
+    excelcy.save_storage(str(constants.MODEL_DATA_DIR / 'train_model.xlsx'))
+
+
+def train_excelcy(save=False):
+    excelcy = ExcelCy()
+    add_stopwords(excelcy.nlp)
+    excelcy.execute(str(constants.MODEL_DATA_DIR / 'train_model.xlsx'))
+    if save:
+        excelcy.save_nlp(str(constants.MODEL_DIR))
+
+    doc = excelcy.nlp(load_book_by_nr(1).content())
+    ships = set([re.sub('[tT]he ', '', ent.text) for ent in doc.ents if ent.label_ == 'SHIP'])
+    persons = set([ent.text for ent in doc.ents if ent.label_ == 'PERSON'])
+    print(ships)
+    print(persons)
+
+
 if __name__ == "__main__":
     # Install spacy first and download model via:
     # `python -m spacy download en_core_web_lg`
-    main(model='en_core_web_lg', output_dir=constants.MODEL_DIR)
+    # main(model='en', output_dir=constants.MODEL_DIR)
+    # prepare_excelcy_data()
+    train_excelcy()

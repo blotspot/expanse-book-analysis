@@ -78,8 +78,12 @@ target/
 /data/**/*.gz
 /data/**/*.txt
 /data/**/*.csv
-/data/model/**
+/data/model/**/.*
+!/data/model/**/*.txt
 !/data/raw/01_Drive/book.txt
+
+# exclude trained models
+/models/**
 
 # exclude link directories for people
 /references/characters/*/*.txt

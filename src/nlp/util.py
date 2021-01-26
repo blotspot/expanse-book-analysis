@@ -1,4 +1,6 @@
+import neuralcoref
 import numpy as np
+import spacy
 
 from src.common.constants import REFERENCES_DIR
 
@@ -49,3 +51,14 @@ def stopwords():
 
 
 STOPWORDS = stopwords()
+
+
+def load_spacy(model, **overrides):
+    nlp = spacy.load(model, **overrides)
+    neuralcoref.add_to_pipe(nlp)
+    add_stopwords(nlp)
+    return nlp
+
+
+def add_stopwords(nlp):
+    nlp.Defaults.stop_words |= STOPWORDS

@@ -24,10 +24,11 @@ DATA_DIR = PROJECT_DIR / 'data'
 
 EXTERNAL_DATA_DIR = DATA_DIR / 'external'
 RAW_DATA_DIR = DATA_DIR / 'raw'
+MODEL_DATA_DIR = DATA_DIR / 'model'
 INTERIM_DATA_DIR = DATA_DIR / 'interim'
 PROCESSED_DATA_DIR = DATA_DIR / 'processed'
-MODEL_DIR = DATA_DIR / 'model'
 
+MODEL_DIR = PROJECT_DIR / 'models'
 REFERENCES_DIR = PROJECT_DIR / 'references'
 REPORTS_DIR = PROJECT_DIR / 'reports'
 

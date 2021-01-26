@@ -1,34 +1,38 @@
-import spacy
 from src.visualization import explacy
 from spacy import displacy
 from textblob import TextBlob
 from textblob.sentiments import NaiveBayesAnalyzer
 
 from src import parse_speech_in_segment
-from src.common.constants import MODEL_DIR
+from src.nlp.util import load_spacy
+from src.common.constants import MODEL_DIR, MODEL_DATA_DIR
 from src.common import load_book_by_nr, load_book
 
+from stanza.server import CoreNLPClient
 
-def expacy():
+
+def explacy():
     book = load_book_by_nr(1)
 
-    nlp = spacy.load('en_core_web_lg')
+    nlp = load_spacy('en')
     explacy.print_parse_info(nlp, book.chapter(2).content())
 
 
 def ent():
     book = load_book_by_nr(1)
 
-    nlp = spacy.load(MODEL_DIR)
+    nlp = load_spacy(MODEL_DIR)
     doc = nlp(book.chapter(2).content())
-    print(doc.sentiment)
-    displacy.serve(doc, style='ent')
+
+    for ent in doc.ents:
+        if ent.label_ == 'PERSON' and ent._.coref_cluster is not None:
+            print(ent._.coref_cluster)
 
 
 def dep():
     book = load_book_by_nr(1)
 
-    nlp = spacy.load('en_core_web_lg')
+    nlp = load_spacy('en')
     doc = nlp(book.chapter(2).content())
     displacy.serve(doc, style='dep')
 
@@ -44,7 +48,7 @@ def text_blob():
 
 
 def speech():
-    nlp = spacy.load('en_core_web_sm', disable=['tokenizer', 'textcat', 'ner'])
+    nlp = load_spacy('en', disable=['tokenizer', 'textcat', 'ner'])
     book = load_book_by_nr(1)
     for chapter in book.chapters:
         speech_content = ''
@@ -58,6 +62,19 @@ def speech():
         #     print(chapter.title())
         #     print(blob.sentences)
         #     print(blob.sentiment)
+
+
+def stanza_speech():
+    book = load_book_by_nr(1)
+    with CoreNLPClient(
+            annotators=['tokenize', 'ssplit', 'pos', 'lemma', 'ner', 'entitymentions', 'depparse', 'coref', 'quote', 'quote.attribution'],
+            timeout=30000,
+            memory='16G') as client:
+        for chapter in book.chapters:
+            for segment in chapter.segments:
+                ann = client.annotate(segment.content())
+                for quote in ann.quote:
+                    print(quote.speaker + ":" + quote.text)
 
 
 def analyse_lines_of_undefined_speakers(nlp, segment):
@@ -107,8 +124,19 @@ def add_sentence_end(sent: str):
     return sent + ' '
 
 
+def excelcy_train():
+    from excelcy import ExcelCy
+    print('Train data with Excel : ' + str(MODEL_DATA_DIR / 'excelcy_train_all.xlsx'))
+    ecy = ExcelCy.execute(file_path=str(MODEL_DATA_DIR / 'excelcy_train_all.xlsx'))
+    ecy = ExcelCy()
+    ecy.storage.prepare.add(kind='file', value=str(MODEL_DATA_DIR / 'prepare' / 'locs.xlsx'), entity='')
+
+
 if __name__ == '__main__':
-    speech()
+    # stanza_speech()
+    # speech()
     # ent()
     # dep()
-    # expacy()
+    # explacy()
+    excelcy_train()
+

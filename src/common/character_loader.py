@@ -61,3 +61,7 @@ def find_character_for_pov(pov: str) -> Character:
         filter(lambda c: c.appears_in([pov]), ALL_CHARACTERS),
         Character(pov, [pov])
     )
+
+
+def print_all_characters():
+    [print('\n'.join(c.alt_names)) for c in ALL_CHARACTERS]
